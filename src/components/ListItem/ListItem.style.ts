@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 type StyleType = {
   isComplete: boolean;
-}
+};
 
 export default styled.li<StyleType>`
   background-color: rgba(255, 255, 255, 0.973);
@@ -30,8 +30,8 @@ export default styled.li<StyleType>`
     width: 200px;
     overflow: hidden;
     font-size: 16px;
-    color: ${(props) => (props.isComplete ? "grey" : "black")};
-    text-decoration: ${(props) => (props.isComplete ? "line-through" : "none")};
+    color: ${(props) => (props.isComplete ? 'grey' : 'black')};
+    text-decoration: ${(props) => (props.isComplete ? 'line-through' : 'none')};
   }
 
   .input__block {
@@ -39,19 +39,19 @@ export default styled.li<StyleType>`
     overflow: hidden;
     padding-left: 10px;
     font-size: 16px;
-    color: ${(props) => (props.isComplete ? "grey" : "black")};
-    text-decoration: ${(props) => (props.isComplete ? "line-through" : "none")};
+    color: ${(props) => (props.isComplete ? 'grey' : 'black')};
+    text-decoration: ${(props) => (props.isComplete ? 'line-through' : 'none')};
   }
 
   .button__complete {
     border: 1px solid black;
     border-radius: 2px;
     padding: 10px;
-    background-color: ${(props) => (props.isComplete ? "greenyellow" : "")};
-    color: ${(props) => (props.isComplete ? "blue" : "")};
+    background-color: ${(props) => (props.isComplete ? 'greenyellow' : '')};
+    color: ${(props) => (props.isComplete ? 'blue' : '')};
 
     :hover {
-      background-color: ${(props) => (props.isComplete ? "" : "green")};
+      background-color: ${(props) => (props.isComplete ? '' : 'green')};
     }
   }
 `;

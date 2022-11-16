@@ -1,6 +1,6 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector } from '@reduxjs/toolkit';
 
-import { InitialStateProjectType } from "../../projectTypes/projectTypes";
+import type { InitialStateProjectType } from '../../types/types';
 
 export const selectFilter = createSelector(
   ({ todos }: InitialStateProjectType) => todos,
@@ -13,15 +13,15 @@ export const selectFilter = createSelector(
         if (item.completed) {
           counter++;
         }
-        if (filter === "completed") {
+        if (filter === 'completed') {
           return item.completed;
         }
-        if (filter === "active") {
+        if (filter === 'active') {
           return !item.completed;
         }
         return item;
       }),
       counter,
     };
-  }
+  },
 );

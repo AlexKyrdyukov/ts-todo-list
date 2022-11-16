@@ -1,21 +1,22 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
-import {
+import type {
   InitialStateProjectType,
   ChangeTodoTextType,
-} from "../../projectTypes/projectTypes";
+} from '../../types/types';
 
-const arrayTodos = JSON.parse(localStorage.getItem("todos") as string) || [];
+const arrayTodos = JSON.parse(localStorage.getItem('todos') as string) || [];
 
 export const initialState: InitialStateProjectType = {
   todos: arrayTodos,
-  filter: "all",
+  filter: 'all',
 };
 
 export const todosSlice = createSlice({
-  name: "todosSlice",
+  name: 'todosSlice',
   initialState,
   reducers: {
     createTodo: (state, action: PayloadAction<string>) => {
@@ -32,21 +33,21 @@ export const todosSlice = createSlice({
 
     changeStatusTodo: (state, action: PayloadAction<string>) => {
       const todoChangeStatus = state.todos.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.id === action.payload,
       );
       state.todos[todoChangeStatus].completed =
         !state.todos[todoChangeStatus].completed;
     },
 
     changeStatusAllTodos: (state) => {
-      state.todos.forEach((item) => {
-        item.completed = true;
+      state.todos = state.todos.map((item) => {
+        return { ...item, completed: true };
       });
     },
 
     deleteCompletedTodo: (state, action: PayloadAction<string>) => {
       const todoDelete = state.todos.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.id === action.payload,
       );
       state.todos.splice(todoDelete, 1);
     },

@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import StyledTodoLists from "./TodoLists.style";
-import ListItem from "../ListItem/ListItem"; 
-import { selectFilter } from "../../reduxStore/main/mainSelector";
-import { useAppSelector } from "../../reduxStore/main/hooksRedux/appHooks"; 
+import StyledTodoLists from './TodoLists.style';
+import ListItem from '../ListItem';
+import { selectFilter } from '../../store/main/mainSelector';
+import { useAppSelector } from '../../store/main/hooksRedux/appHooks';
 
 const TodoLists: React.FC = () => {
   const filterArrayTodos = useAppSelector(selectFilter);

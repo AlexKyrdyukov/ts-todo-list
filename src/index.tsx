@@ -1,17 +1,17 @@
-import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 
-import App from "./App";
-import GlobalStyle from "./globalStyle/globalStyle";
+import App from './App';
+import GlobalStyle from './components/GlobalStyle/GlobalStyle';
 
-import { store } from "./reduxStore/main/mainStore";
+import { store } from './store/main/mainStore';
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 root.render(
   <Provider store={store}>
     <GlobalStyle />
     <App />
-  </Provider>
+  </Provider>,
 );

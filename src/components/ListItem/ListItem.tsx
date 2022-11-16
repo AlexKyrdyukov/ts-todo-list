@@ -1,9 +1,9 @@
-import React from "react";
-import { useAppDispatch } from "../../reduxStore/main/hooksRedux/appHooks";
+import React from 'react';
+import { useAppDispatch } from '../../store/main/hooksRedux/appHooks';
 
-import { todosSliceActions } from "../../reduxStore/main/mainTodoSlice";
+import { todosSliceActions } from '../../store/main/mainTodoSlice';
 
-import StyledListItem from "./ListItem.style";
+import StyledListItem from './ListItem.style';
 
 type PropsType = {
   title: string;
@@ -32,7 +32,7 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
       todosSliceActions.changeTodoText({
         text: ev.target.value,
         id: props.todo.id,
-      })
+      }),
     );
   };
 

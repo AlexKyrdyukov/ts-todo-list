@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import { todosSliceActions } from "../../reduxStore/main/mainTodoSlice";
-import { selectFilter } from "../../reduxStore/main/mainSelector";
-import StyledFooter from "./Footer.style";
+import { todosSliceActions } from '../../store/main/mainTodoSlice';
+import { selectFilter } from '../../store/main/mainSelector';
+import StyledFooter from './Footer.style';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../reduxStore/main/hooksRedux/appHooks";
+} from '../../store/main/hooksRedux/appHooks';
 
 const Footer: React.FC = () => {
   const arrayTodos = useAppSelector(({ todos }) => todos);
@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(arrayTodos));
+    localStorage.setItem('todos', JSON.stringify(arrayTodos));
   }, [arrayTodos]);
 
   const handleFilterTodos = (filterValue: string) => {
@@ -38,8 +38,8 @@ const Footer: React.FC = () => {
           key={item.value}
           className={
             item.value === filter
-              ? "footer__block-button-in-focus"
-              : "footer__block-button-status"
+              ? 'footer__block-button-in-focus'
+              : 'footer__block-button-status'
           }
           onClick={() => handleFilterTodos(item.value)}
         >
@@ -58,13 +58,13 @@ const Footer: React.FC = () => {
 
 const filterButtons = [
   {
-    value: "all",
+    value: 'all',
   },
   {
-    value: "active",
+    value: 'active',
   },
   {
-    value: "completed",
+    value: 'completed',
   },
 ];
 export default Footer;

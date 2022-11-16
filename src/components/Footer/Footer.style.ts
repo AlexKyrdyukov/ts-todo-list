@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export default styled.footer`
   background-color: rgb(231, 231, 230);
