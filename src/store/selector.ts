@@ -1,16 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { setFilterArrayInLocaleStorage } from '../utils/localeStorage';
 
 import type { RootStateType } from './index';
-
-//  type AppSelector<Return> = (state: RootStateType) => Return;
-//  const createAppSelector = <R>(selector: AppSelector<R>): AppSelector<R> => selector;
 
 export const selectFilter = createSelector(
   ({ todos }: RootStateType) => todos,
   ({ filter }: RootStateType) => filter,
   (todos, filter) => {
     let completedTodosCount = 0;
-
     const filteredTodos = todos.filter((item) => {
       if (item.completed) {
         completedTodosCount++;
@@ -23,6 +20,9 @@ export const selectFilter = createSelector(
       }
       return item;
     });
+    if (filter !== 'all') {
+      setFilterArrayInLocaleStorage(filteredTodos);
+    }
     return {
       filteredTodos,
       completedTodosCount,

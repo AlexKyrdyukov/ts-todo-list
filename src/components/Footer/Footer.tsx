@@ -14,7 +14,7 @@ import {
   StyledFooter } from './Footer.style';
 
 const Footer: React.FC = () => {
-  const arrayTodos = useAppSelector(({ todos }) => todos.length);
+  const arrayTodosLength = useAppSelector(({ todos }) => todos.length);
   const filter = useAppSelector(({ filter }) => filter);
   const { completedTodosCount } = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
     dispatch(todosSliceActions.deleteAllCompleteTodos());
   };
 
-  if (!arrayTodos) {
+  if (!arrayTodosLength) {
     return null;
   }
 
