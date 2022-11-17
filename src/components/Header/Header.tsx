@@ -1,8 +1,7 @@
 import React from 'react';
-import { useAppDispatch } from '../../store/main/hooksRedux/appHooks';
 
-import { todosSliceActions } from '../../store/main/mainTodoSlice';
-
+import { useAppDispatch } from '../../store';
+import { todosSliceActions } from '../../store/todoSlice';
 import StyledHeader from './Header.style';
 
 import checked from './images/checkMark.png';
@@ -11,13 +10,7 @@ const Header: React.FC = () => {
   const [todoTitle, setTodoTitle] = React.useState('');
   const dispatch = useAppDispatch();
 
-  const handleNewTodoInputChange = (
-    ev: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setTodoTitle(ev.target.value);
-  };
-
-  const handleKeyUp = (ev: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (ev) => {
     if (ev.key !== 'Enter') {
       return;
     }
@@ -40,14 +33,16 @@ const Header: React.FC = () => {
   return (
     <StyledHeader>
       <button onClick={changeTodosStatus}>
-        <img className="header__image" src={checked} alt="" />
+        <img className="header__image" src={checked}
+          alt="checkbox installations all todos completed"
+        />
       </button>
       <input
         className="header__input"
         value={todoTitle}
         placeholder="What needs to be done?"
         onKeyUp={handleKeyUp}
-        onChange={handleNewTodoInputChange}
+        onChange={(ev) => setTodoTitle(ev.target.value)}
       />
       <button className="header__button" onClick={handleCreateTodo}>
         Add

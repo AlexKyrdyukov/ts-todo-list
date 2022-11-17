@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAppDispatch } from '../../store/main/hooksRedux/appHooks';
 
-import { todosSliceActions } from '../../store/main/mainTodoSlice';
+import { useAppDispatch } from '../../store/index';
+import { todosSliceActions } from '../../store/todoSlice';
 
 import StyledListItem from './ListItem.style';
 
@@ -10,6 +10,7 @@ type PropsType = {
   id: string;
   completed: boolean;
 };
+
 type PropsArrayType = {
   todo: PropsType;
 };
@@ -41,22 +42,22 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
       <button onClick={handleChangeStatus} className="button__complete">
         completed
       </button>
-      {inputState ? (
-        <input
+      {inputState
+        ? (
+          <input
           className="input__block"
-          type="text"
           value={props.todo.title}
           onBlur={() => setInputState((prevValue) => !prevValue)}
           onChange={handleChangeTodoText}
-        />
-      ) : (
-        <div
-          className="title__block"
-          onDoubleClick={() => setInputState((prevValue) => !prevValue)}
-        >
-          {props.todo.title}
-        </div>
-      )}
+          />)
+        : (
+          <div
+            className="title__block"
+            onDoubleClick={() => setInputState((prevValue) => !prevValue)}
+          >
+            {props.todo.title}
+          </div>
+        )}
       <button onClick={handleDeleteTodo} className="button__delete">
         delete
       </button>

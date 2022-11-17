@@ -3,16 +3,23 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import { getArrayFromLocaleStorage } from '../../utils/localeStorage';
 import type {
-  InitialStateProjectType,
-  ChangeTodoTextType,
-} from '../../types/types';
+  InitialStateType } from '../types';
+import {
+  TodoFilterENUM,
+} from '../types';
 
-const arrayTodos = JSON.parse(localStorage.getItem('todos') as string) || [];
+type ChangeTodoTextType = {
+  text: string;
+  id: string;
+};
 
-export const initialState: InitialStateProjectType = {
+const arrayTodos = getArrayFromLocaleStorage();
+
+export const initialState: InitialStateType = {
   todos: arrayTodos,
-  filter: 'all',
+  filter: TodoFilterENUM.all,
 };
 
 export const todosSlice = createSlice({
@@ -27,7 +34,7 @@ export const todosSlice = createSlice({
       });
     },
 
-    filterTodo: (state, action: PayloadAction<string>) => {
+    filterTodo: (state, action: PayloadAction<TodoFilterENUM>) => {
       state.filter = action.payload;
     },
 

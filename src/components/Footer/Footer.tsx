@@ -1,24 +1,24 @@
 import React from 'react';
 
-import { todosSliceActions } from '../../store/main/mainTodoSlice';
-import { selectFilter } from '../../store/main/mainSelector';
-import StyledFooter from './Footer.style';
+import { todosSliceActions } from '../../store/todoSlice';
+import { selectFilter } from '../../store/selector';
+import { TodoFilterENUM } from '../../types';
 import {
   useAppDispatch,
   useAppSelector,
-} from '../../store/main/hooksRedux/appHooks';
+} from '../../store/index';
+import {
+  DeleteButton,
+  FilterButton,
+  InformationTable,
+  StyledFooter } from './Footer.style';
 
 const Footer: React.FC = () => {
-  const arrayTodos = useAppSelector(({ todos }) => todos);
+  const arrayTodos = useAppSelector(({ todos }) => todos.length);
   const filter = useAppSelector(({ filter }) => filter);
-  const completedTodos = useAppSelector(selectFilter);
+  const { completedTodosCount } = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(arrayTodos));
-  }, [arrayTodos]);
-
-  const handleFilterTodos = (filterValue: string) => {
+  const handleFilterTodos = (filterValue: TodoFilterENUM) => {
     dispatch(todosSliceActions.filterTodo(filterValue));
   };
 
@@ -26,45 +26,30 @@ const Footer: React.FC = () => {
     dispatch(todosSliceActions.deleteAllCompleteTodos());
   };
 
-  if (!arrayTodos.length) {
+  if (!arrayTodos) {
     return null;
   }
 
   return (
     <StyledFooter>
-      <span className="info__table">Completed: {completedTodos.counter}</span>
-      {filterButtons.map((item) => (
-        <button
-          key={item.value}
-          className={
-            item.value === filter
-              ? 'footer__block-button-in-focus'
-              : 'footer__block-button-status'
-          }
-          onClick={() => handleFilterTodos(item.value)}
+      <InformationTable>Completed: {completedTodosCount}</InformationTable>
+      {Object.entries(TodoFilterENUM).map(([key, value]) => (
+        <FilterButton
+          key={key}
+          onClick={() => handleFilterTodos(value)}
+          isActive={value === filter}
         >
-          {item.value}
-        </button>
+          {value}
+        </FilterButton>
       ))}
-      <button
+      <DeleteButton
         className="footer__button-delete-todos"
         onClick={handleDeleteCompletedTodos}
       >
         delete
-      </button>
+      </DeleteButton>
     </StyledFooter>
   );
 };
 
-const filterButtons = [
-  {
-    value: 'all',
-  },
-  {
-    value: 'active',
-  },
-  {
-    value: 'completed',
-  },
-];
 export default Footer;
