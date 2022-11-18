@@ -1,4 +1,4 @@
-import type { TodoType } from '../types/types';
+import type { TodoType } from '../types';
 
 export const getArrayFromLocaleStorage = () => {
   return JSON.parse(localStorage.getItem('arrayTodos') as string) || [];

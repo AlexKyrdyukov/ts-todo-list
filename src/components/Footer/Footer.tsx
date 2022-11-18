@@ -32,7 +32,10 @@ const Footer: React.FC = () => {
 
   return (
     <StyledFooter>
-      <InformationTable>Completed: {completedTodosCount}</InformationTable>
+      <InformationTable
+      >
+        Completed: {completedTodosCount}
+      </InformationTable>
       {Object.entries(TodoFilterENUM).map(([key, value]) => (
         <FilterButton
           key={key}
@@ -43,7 +46,6 @@ const Footer: React.FC = () => {
         </FilterButton>
       ))}
       <DeleteButton
-        className="footer__button-delete-todos"
         onClick={handleDeleteCompletedTodos}
       >
         delete

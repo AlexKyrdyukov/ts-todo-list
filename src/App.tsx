@@ -1,5 +1,5 @@
 import React from 'react';
-import { setArrayInLocaleStorage } from './utils/localeStorage';
+import { setArrayInLocaleStorage } from './utils/localeStorageHelper';
 
 import Footer from './components/Footer';
 import Header from './components/Header';

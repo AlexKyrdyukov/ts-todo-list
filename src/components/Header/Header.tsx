@@ -3,7 +3,6 @@ import React from 'react';
 import { useAppDispatch } from '../../store';
 import { todosSliceActions } from '../../store/todoSlice';
 import StyledHeader from './Header.style';
-
 import checked from './images/checkMark.png';
 
 const Header: React.FC = () => {

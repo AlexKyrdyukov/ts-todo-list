@@ -2,8 +2,9 @@ import React from 'react';
 
 import { useAppDispatch } from '../../store/index';
 import { todosSliceActions } from '../../store/todoSlice';
-
 import StyledListItem from './ListItem.style';
+import { ButtonDelete,
+  ButtonCompleted } from '../ListItem/ListItem.style';
 
 type PropsType = {
   title: string;
@@ -39,9 +40,11 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
 
   return (
     <StyledListItem isComplete={props.todo.completed}>
-      <button onClick={handleChangeStatus} className="button__complete">
+      <ButtonCompleted isComplete={props.todo.completed}
+        onClick={handleChangeStatus}
+        >
         completed
-      </button>
+      </ButtonCompleted>
       {inputState
         ? (
           <input
@@ -58,9 +61,11 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
             {props.todo.title}
           </div>
         )}
-      <button onClick={handleDeleteTodo} className="button__delete">
+      <ButtonDelete
+        onClick={handleDeleteTodo}
+      >
         delete
-      </button>
+      </ButtonDelete>
     </StyledListItem>
   );
 };
