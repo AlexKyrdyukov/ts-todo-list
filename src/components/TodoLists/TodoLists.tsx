@@ -3,14 +3,14 @@ import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store';
 import { selectFilter } from '../../store/selector';
-import { fetchTodos } from '../../store/todoThunks';
+import { getTodosFromDB } from '../../store/todoThunks';
 import ListItem from '../ListItem';
 import StyledTodoLists from './TodoLists.style';
 
 const TodoLists: React.FC = () => {
   const dispatch = useAppDispatch();
   React.useEffect(() => {
-    dispatch(fetchTodos());
+    dispatch(getTodosFromDB());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const { filteredTodos } = useAppSelector(selectFilter);

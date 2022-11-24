@@ -1,8 +1,9 @@
-/* eslint-disable no-underscore-dangle */
-import { v4 as uuidv4 } from 'uuid';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchTodos } from './todoThunks';
+/* eslint-disable no-underscore-dangle */
+// import { v4 as uuidv4 } from 'uuid';
+import { deleteCurrentTodo, getTodosFromDB } from './todoThunks';
+import { setTodoInDB } from '../store/todoThunks';
 import type {
   TodoType,
   InitialStateType } from '../types';
@@ -25,13 +26,13 @@ export const todosSlice = createSlice({
   name: 'todosSlice',
   initialState,
   reducers: {
-    createTodo: (state, action: PayloadAction<string>) => {
-      state.todos.push({
-        completed: false,
-        _id: uuidv4(),
-        title: action.payload,
-      });
-    },
+    // createTodo: (state, action: PayloadAction<string>) => {
+    //   state.todos.push({
+    //     completed: false,
+    //     _id: uuidv4(),
+    //     title: action.payload,
+    //   });
+    // },
 
     filterTodo: (state, action: PayloadAction<TodoFilterENUM>) => {
       state.filter = action.payload;
@@ -61,7 +62,6 @@ export const todosSlice = createSlice({
     changeTodoText: (state, action: PayloadAction<ChangeTodoTextType>) => {
       const newText = action.payload.text;
       const todoId = action.payload._id;
-      // eslint-disable-next-line no-underscore-dangle
       const indexTodo = state.todos.findIndex((item) => item._id === todoId);
       state.todos[indexTodo].title = newText;
     },
@@ -72,8 +72,16 @@ export const todosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTodos.fulfilled, (state, action) => {
+      .addCase(getTodosFromDB.fulfilled, (state, action) => {
         state.todos = action.payload;
+      })
+      .addCase(setTodoInDB.fulfilled, (state, action) => {
+        state.todos.push(action.payload);
+      })
+      .addCase(deleteCurrentTodo.fulfilled, (state, action) => {
+        const id = action.payload;
+        const indexTodo = state.todos.findIndex((item) => item._id === id);
+        state.todos.splice(indexTodo, 1);
       });
   },
 });

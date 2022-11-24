@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useAppDispatch } from '../../store';
 import { todosSliceActions } from '../../store/todoSlice';
-import setTodoDB from '../../webApi/createTodoApi';
+import { setTodoInDB } from '../../store/todoThunks';
 import StyledHeader from './Header.style';
 import checked from './images/checkMark.png';
 
@@ -17,12 +17,12 @@ const Header: React.FC = () => {
     handleCreateTodo();
   };
 
-  const handleCreateTodo = async () => {
+  const handleCreateTodo = () => {
     if (!todoTitle.trim()) {
       setTodoTitle('');
       return;
     }
-    setTodoDB(todoTitle);
+    dispatch(setTodoInDB(todoTitle));
     // dispatch(todosSliceActions.createTodo(todoTitle));
     setTodoTitle('');
   };
