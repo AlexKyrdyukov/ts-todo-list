@@ -1,21 +1,21 @@
+/* eslint-disable no-underscore-dangle */
 import { v4 as uuidv4 } from 'uuid';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-import { getArrayFromLocaleStorage } from '../utils/localeStorageHelper';
+import { fetchTodos } from './todoThunks';
 import type {
+  TodoType,
   InitialStateType } from '../types';
+
 import {
   TodoFilterENUM,
 } from '../types';
 
 type ChangeTodoTextType = {
   text: string;
-  id: string;
+  _id: string;
 };
-
-const arrayTodos = getArrayFromLocaleStorage();
-
+const arrayTodos: TodoType[] = [];
 export const initialState: InitialStateType = {
   todos: arrayTodos,
   filter: TodoFilterENUM.all,
@@ -28,7 +28,7 @@ export const todosSlice = createSlice({
     createTodo: (state, action: PayloadAction<string>) => {
       state.todos.push({
         completed: false,
-        id: uuidv4(),
+        _id: uuidv4(),
         title: action.payload,
       });
     },
@@ -39,7 +39,7 @@ export const todosSlice = createSlice({
 
     changeStatusTodo: (state, action: PayloadAction<string>) => {
       const todoChangeStatus = state.todos.findIndex(
-        (item) => item.id === action.payload,
+        (item) => item._id === action.payload,
       );
       state.todos[todoChangeStatus].completed =
         !state.todos[todoChangeStatus].completed;
@@ -53,21 +53,28 @@ export const todosSlice = createSlice({
 
     deleteCompletedTodo: (state, action: PayloadAction<string>) => {
       const todoDelete = state.todos.findIndex(
-        (item) => item.id === action.payload,
+        (item) => item._id === action.payload,
       );
       state.todos.splice(todoDelete, 1);
     },
 
     changeTodoText: (state, action: PayloadAction<ChangeTodoTextType>) => {
       const newText = action.payload.text;
-      const todoId = action.payload.id;
-      const indexTodo = state.todos.findIndex((item) => item.id === todoId);
+      const todoId = action.payload._id;
+      // eslint-disable-next-line no-underscore-dangle
+      const indexTodo = state.todos.findIndex((item) => item._id === todoId);
       state.todos[indexTodo].title = newText;
     },
 
     deleteAllCompleteTodos: (state) => {
       state.todos = state.todos.filter((item) => !item.completed);
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTodos.fulfilled, (state, action) => {
+        state.todos = action.payload;
+      });
   },
 });
 

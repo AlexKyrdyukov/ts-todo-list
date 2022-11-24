@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import { useAppDispatch } from '../../store/index';
@@ -8,7 +9,7 @@ import { ButtonDelete,
 
 type PropsType = {
   title: string;
-  id: string;
+  _id: string;
   completed: boolean;
 };
 
@@ -22,18 +23,18 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
   const dispatch = useAppDispatch();
 
   const handleDeleteTodo = () => {
-    dispatch(todosSliceActions.deleteCompletedTodo(props.todo.id));
+    dispatch(todosSliceActions.deleteCompletedTodo(props.todo._id));
   };
 
   const handleChangeStatus = () => {
-    dispatch(todosSliceActions.changeStatusTodo(props.todo.id));
+    dispatch(todosSliceActions.changeStatusTodo(props.todo._id));
   };
 
   const handleChangeTodoText = (ev: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
       todosSliceActions.changeTodoText({
         text: ev.target.value,
-        id: props.todo.id,
+        _id: props.todo._id,
       }),
     );
   };

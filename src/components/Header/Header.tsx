@@ -2,10 +2,9 @@ import React from 'react';
 
 import { useAppDispatch } from '../../store';
 import { todosSliceActions } from '../../store/todoSlice';
+import setTodoDB from '../../webApi/createTodoApi';
 import StyledHeader from './Header.style';
 import checked from './images/checkMark.png';
-
-import routes from '../../webApi/routes';
 
 const Header: React.FC = () => {
   const [todoTitle, setTodoTitle] = React.useState('');
@@ -23,19 +22,8 @@ const Header: React.FC = () => {
       setTodoTitle('');
       return;
     }
-    dispatch(todosSliceActions.createTodo(todoTitle));
-    const todo = {
-      title: todoTitle,
-      completed: false,
-    };
-    const response = await fetch(routes.CREATE_TODO, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(todo),
-    });
-    console.log(response);
+    setTodoDB(todoTitle);
+    // dispatch(todosSliceActions.createTodo(todoTitle));
     setTodoTitle('');
   };
 

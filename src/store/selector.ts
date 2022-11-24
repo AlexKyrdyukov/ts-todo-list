@@ -1,5 +1,4 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { setFilterArrayInLocaleStorage } from '../utils/localeStorageHelper';
 import type { RootStateType } from './index';
 
 export const selectFilter = createSelector(
@@ -17,9 +16,6 @@ export const selectFilter = createSelector(
       const flag = filter === 'completed';
       return item.completed === flag;
     });
-    if (filter !== 'all') {
-      setFilterArrayInLocaleStorage(filteredTodos);
-    }
     return {
       filteredTodos,
       completedTodosCount,
