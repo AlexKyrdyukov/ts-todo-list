@@ -9,18 +9,17 @@ import StyledTodoLists from './TodoLists.style';
 
 const TodoLists: React.FC = () => {
   const dispatch = useAppDispatch();
-  // const filterTodo = React.useMemo(() => {
-  //   return getTodos('all');
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);  const filteredTodos = useAppSelector(({ todos }) => todos);
-  dispatch(todosSliceActions.installTodos(filteredTodos));
-  const filteredTodo = React.useMemo(() => {
-    return getTodos('all')
-  });
+  const filter = useAppSelector(({ filter }) => filter);
 
-  fetch('asd').then((r) => setState(r))
+  React.useEffect(() => {
+    getTodos('all').then((res) => {
+      dispatch(todosSliceActions.installTodos(res));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const filteredTodos = useAppSelector(({ todos }) => todos);
   // eslint-disable-next-line no-console
-  // console.log(arrayTodo);
+  console.log(filteredTodos);
   return (
     <StyledTodoLists>
       {filteredTodos.map((item) => (

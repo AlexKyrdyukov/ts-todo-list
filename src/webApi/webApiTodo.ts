@@ -31,7 +31,8 @@ export const getTodos = async (filter: string) => {
   try {
     const response = await axiosInstance.get(`/${filter}`);
     // eslint-disable-next-line no-console
-    return response;
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.warn(error);
   }
