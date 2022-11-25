@@ -3,6 +3,7 @@ import React from 'react';
 import { useAppDispatch } from '../../store';
 import { todosSliceActions } from '../../store/todoSlice';
 import { setTodoInDB } from '../../store/todoThunks';
+import { setAllTodosCompleted } from '../../webApi/webApiTodo';
 import StyledHeader from './Header.style';
 import checked from './images/checkMark.png';
 
@@ -28,6 +29,7 @@ const Header: React.FC = () => {
   };
 
   const changeTodosStatus = () => {
+    setAllTodosCompleted();
     dispatch(todosSliceActions.changeStatusAllTodos());
   };
 

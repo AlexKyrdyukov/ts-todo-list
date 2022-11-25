@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { todosSliceActions } from '../../store/todoSlice';
-import { selectFilter } from '../../store/selector';
 import { TodoFilterENUM } from '../../types';
 import {
   useAppDispatch,
@@ -16,7 +15,6 @@ import {
 const Footer: React.FC = () => {
   const arrayTodosLength = useAppSelector(({ todos }) => todos.length);
   const filter = useAppSelector(({ filter }) => filter);
-  const { completedTodosCount } = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
   const handleFilterTodos = (filterValue: TodoFilterENUM) => {
     dispatch(todosSliceActions.filterTodo(filterValue));
@@ -34,7 +32,7 @@ const Footer: React.FC = () => {
     <StyledFooter>
       <InformationTable
       >
-        Completed: {completedTodosCount}
+        Completed: {0}
       </InformationTable>
       {Object.entries(TodoFilterENUM).map(([key, value]) => (
         <FilterButton

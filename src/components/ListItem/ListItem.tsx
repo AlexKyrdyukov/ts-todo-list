@@ -6,7 +6,7 @@ import { todosSliceActions } from '../../store/todoSlice';
 import StyledListItem from './ListItem.style';
 import { ButtonDelete,
   ButtonCompleted } from '../ListItem/ListItem.style';
-import { deleteCurrentTodo } from '../../store/todoThunks';
+import { changeTodoStatus, deleteCurrentTodo } from '../../webApi/webApiTodo';
 
 type PropsType = {
   title: string;
@@ -24,11 +24,14 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
   const dispatch = useAppDispatch();
 
   const handleDeleteTodo = () => {
-    dispatch(deleteCurrentTodo(props.todo._id));
-    // dispatch(todosSliceActions.deleteCompletedTodo(props.todo._id));
+    deleteCurrentTodo(props.todo._id);
+    dispatch(todosSliceActions.deleteCompletedTodo(props.todo._id));
   };
 
   const handleChangeStatus = () => {
+    // eslint-disable-next-line no-console
+    console.log('string');
+    changeTodoStatus(props.todo._id);
     dispatch(todosSliceActions.changeStatusTodo(props.todo._id));
   };
 

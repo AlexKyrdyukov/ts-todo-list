@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-/* eslint-disable no-underscore-dangle */
-// import { v4 as uuidv4 } from 'uuid';
-import { deleteCurrentTodo, getTodosFromDB } from './todoThunks';
+
 import { setTodoInDB } from '../store/todoThunks';
 import type {
   TodoType,
@@ -26,19 +24,15 @@ export const todosSlice = createSlice({
   name: 'todosSlice',
   initialState,
   reducers: {
-    // createTodo: (state, action: PayloadAction<string>) => {
-    //   state.todos.push({
-    //     completed: false,
-    //     _id: uuidv4(),
-    //     title: action.payload,
-    //   });
-    // },
-
     filterTodo: (state, action: PayloadAction<TodoFilterENUM>) => {
       state.filter = action.payload;
     },
-
+    installTodos: (state, action: PayloadAction<TodoType[]>) => {
+      state.todos = action.payload;
+    },
     changeStatusTodo: (state, action: PayloadAction<string>) => {
+      // eslint-disable-next-line no-console
+      console.log(action);
       const todoChangeStatus = state.todos.findIndex(
         (item) => item._id === action.payload,
       );
@@ -72,16 +66,8 @@ export const todosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getTodosFromDB.fulfilled, (state, action) => {
-        state.todos = action.payload;
-      })
       .addCase(setTodoInDB.fulfilled, (state, action) => {
         state.todos.push(action.payload);
-      })
-      .addCase(deleteCurrentTodo.fulfilled, (state, action) => {
-        const id = action.payload;
-        const indexTodo = state.todos.findIndex((item) => item._id === id);
-        state.todos.splice(indexTodo, 1);
       });
   },
 });

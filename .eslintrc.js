@@ -25,6 +25,7 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   rules: {
+    'no-underscore-dangle': ["error", { "allow": ["_id"] }],
     'react-hooks/exhaustive-deps': 'error',
     'react/jsx-boolean-value': 'error',
     'react/jsx-no-useless-fragment': 'error',
