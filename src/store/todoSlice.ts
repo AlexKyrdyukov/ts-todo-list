@@ -31,8 +31,6 @@ export const todosSlice = createSlice({
       state.todos = action.payload;
     },
     changeStatusTodo: (state, action: PayloadAction<string>) => {
-      // eslint-disable-next-line no-console
-      console.log(action);
       const todoChangeStatus = state.todos.findIndex(
         (item) => item._id === action.payload,
       );

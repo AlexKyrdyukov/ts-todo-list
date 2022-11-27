@@ -9,17 +9,16 @@ import StyledTodoLists from './TodoLists.style';
 
 const TodoLists: React.FC = () => {
   const dispatch = useAppDispatch();
-  const filter = useAppSelector(({ filter }) => filter);
 
   React.useEffect(() => {
-    getTodos('all').then((res) => {
-      dispatch(todosSliceActions.installTodos(res));
-    });
+    getTodos('all')
+      .then((res) => {
+        dispatch(todosSliceActions.installTodos(res));
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const filteredTodos = useAppSelector(({ todos }) => todos);
-  // eslint-disable-next-line no-console
-  console.log(filteredTodos);
+
   return (
     <StyledTodoLists>
       {filteredTodos.map((item) => (

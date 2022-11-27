@@ -24,7 +24,6 @@ const Header: React.FC = () => {
       return;
     }
     dispatch(setTodoInDB(todoTitle));
-    // dispatch(todosSliceActions.createTodo(todoTitle));
     setTodoTitle('');
   };
 

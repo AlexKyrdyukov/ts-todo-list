@@ -9,7 +9,6 @@ export const setTodoInDB = createAsyncThunk('postTodo', async (todoTitle: string
     const result = await (await response).data;
     return result;
   } catch (error) {
-    // eslint-disable-next-line no-alert
-    alert(error);
+    console.warn(error);
   }
 });

@@ -6,7 +6,7 @@ import { todosSliceActions } from '../../store/todoSlice';
 import StyledListItem from './ListItem.style';
 import { ButtonDelete,
   ButtonCompleted } from '../ListItem/ListItem.style';
-import { changeTodoStatus, deleteCurrentTodo } from '../../webApi/webApiTodo';
+import { changeTodoStatus, deleteCurrentTodo, setInDBNewTodoText } from '../../webApi/webApiTodo';
 
 type PropsType = {
   title: string;
@@ -29,8 +29,6 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
   };
 
   const handleChangeStatus = () => {
-    // eslint-disable-next-line no-console
-    console.log('string');
     changeTodoStatus(props.todo._id);
     dispatch(todosSliceActions.changeStatusTodo(props.todo._id));
   };
@@ -44,6 +42,11 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
     );
   };
 
+  const setTitleInDB = () => {
+    setInputState((prevValue) => !prevValue);
+    setInDBNewTodoText(props.todo._id, props.todo.title);
+  };
+
   return (
     <StyledListItem isComplete={props.todo.completed}>
       <ButtonCompleted isComplete={props.todo.completed}
@@ -52,21 +55,18 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
         completed
       </ButtonCompleted>
       {inputState
-        ? (
-          <input
+        ? (<input
           className="input__block"
           value={props.todo.title}
-          onBlur={() => setInputState((prevValue) => !prevValue)}
+          onBlur={setTitleInDB}
           onChange={handleChangeTodoText}
           />)
-        : (
-          <div
+        : (<div
             className="title__block"
             onDoubleClick={() => setInputState((prevValue) => !prevValue)}
           >
             {props.todo.title}
-          </div>
-        )}
+           </div>)}
       <ButtonDelete
         onClick={handleDeleteTodo}
       >

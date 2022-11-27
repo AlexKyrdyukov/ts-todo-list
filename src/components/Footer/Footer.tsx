@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { todosSliceActions } from '../../store/todoSlice';
+import type { TodoType } from '../../types';
 import { TodoFilterENUM } from '../../types';
 import {
   useAppDispatch,
@@ -11,35 +12,38 @@ import {
   FilterButton,
   InformationTable,
   StyledFooter } from './Footer.style';
-import { getTodos } from '../../webApi/webApiTodo';
+import { deleteCompletedTodos, getTodos } from '../../webApi/webApiTodo';
 
 const Footer: React.FC = () => {
-  const arrayTodosLength = useAppSelector(({ todos }) => todos.length);
+  const arrayTodos = useAppSelector(({ todos }) => todos);
   const filter = useAppSelector(({ filter }) => filter);
+
   const dispatch = useAppDispatch();
 
   const handleFilterTodos = (filterValue: TodoFilterENUM) => {
-    // eslint-disable-next-line no-console
-    console.log(filterValue);
     dispatch(todosSliceActions.filterTodo(filterValue));
     getTodos(filterValue).then((res) => {
       dispatch(todosSliceActions.installTodos(res));
     });
   };
 
-  const handleDeleteCompletedTodos = () => {
-    // dispatch(todosSliceActions.deleteAllCompleteTodos());
-  };
-
-  if (!arrayTodosLength && filter === 'all') {
+  const amountCompleted = arrayTodos.reduce((num: number, item: TodoType) => {
+    return (item.completed ? num + 1 : num);
+  }, 0);
+  if (!arrayTodos.length && filter === 'all') {
     return null;
   }
+  const handleDeleteCompletedTodos = () => {
+    if (amountCompleted <= 0) return;
+    dispatch(todosSliceActions.deleteAllCompleteTodos());
+    deleteCompletedTodos();
+  };
 
   return (
     <StyledFooter>
       <InformationTable
       >
-        Completed: {0}
+        Completed: {amountCompleted}
       </InformationTable>
       {Object.entries(TodoFilterENUM).map(([key, value]) => (
         <FilterButton
