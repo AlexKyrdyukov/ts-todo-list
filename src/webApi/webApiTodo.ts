@@ -1,13 +1,5 @@
 import axiosInstance from '.';
 
-export const changeTodoStatus = async (id: string) => {
-  try {
-    await axiosInstance.patch(`/status/${id}`);
-  } catch (error) {
-    console.warn(error);
-  }
-};
-
 export const deleteCurrentTodo = async (id: string) => {
   try {
     await axiosInstance.delete(`/${id}`);
@@ -26,7 +18,7 @@ export const setAllTodosCompleted = async () => {
 
 export const getTodos = async (filter: string) => {
   try {
-    const response = await axiosInstance.get(`/${filter}`);
+    const response = await axiosInstance.get('/', { params: { filter } });
     return response.data;
   } catch (error) {
     console.warn(error);
@@ -41,9 +33,11 @@ export const deleteCompletedTodos = async () => {
   }
 };
 
-export const setInDBNewTodoText = async (id: string, titleText: string) => {
+export const setChangesTodoData = async (id: string, titleText: string) => {
+  // eslint-disable-next-line no-console
+  console.log(id, titleText);
   try {
-    await axiosInstance.patch(`/title/${id}/${titleText}`);
+    await axiosInstance.patch(`/${id}`, { params: { titleText } });
   } catch (error) {
     console.warn(error);
   }

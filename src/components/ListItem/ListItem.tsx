@@ -6,7 +6,7 @@ import { todosSliceActions } from '../../store/todoSlice';
 import StyledListItem from './ListItem.style';
 import { ButtonDelete,
   ButtonCompleted } from '../ListItem/ListItem.style';
-import { changeTodoStatus, deleteCurrentTodo, setInDBNewTodoText } from '../../webApi/webApiTodo';
+import { deleteCurrentTodo, setChangesTodoData } from '../../webApi/webApiTodo';
 
 type PropsType = {
   title: string;
@@ -29,7 +29,7 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
   };
 
   const handleChangeStatus = () => {
-    changeTodoStatus(props.todo._id);
+    setChangesTodoData(props.todo._id, '');
     dispatch(todosSliceActions.changeStatusTodo(props.todo._id));
   };
 
@@ -44,7 +44,7 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
 
   const setTitleInDB = () => {
     setInputState((prevValue) => !prevValue);
-    setInDBNewTodoText(props.todo._id, props.todo.title);
+    setChangesTodoData(props.todo._id, props.todo.title);
   };
 
   return (
