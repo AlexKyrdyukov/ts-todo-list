@@ -8,9 +8,9 @@ export const deleteCurrentTodo = async (id: string) => {
   }
 };
 
-export const setAllTodosCompleted = async () => {
+export const changeAllTodosStatus = async (flag: boolean) => {
   try {
-    await axiosInstance.patch('/completed');
+    await axiosInstance.patch('/completed', { params: { flag } });
   } catch (error) {
     console.warn(error);
   }
@@ -27,15 +27,13 @@ export const getTodos = async (filter: string) => {
 
 export const deleteCompletedTodos = async () => {
   try {
-    await axiosInstance.delete('/');
+    await axiosInstance.delete('/all');
   } catch (error) {
     console.warn(error);
   }
 };
 
 export const setChangesTodoData = async (id: string, titleText: string) => {
-  // eslint-disable-next-line no-console
-  console.log(id, titleText);
   try {
     await axiosInstance.patch(`/${id}`, { params: { titleText } });
   } catch (error) {

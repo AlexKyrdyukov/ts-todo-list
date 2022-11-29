@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { todosSliceActions } from '../../store/todoSlice';
-import type { TodoType } from '../../types';
 import { TodoFilterENUM } from '../../types';
 import {
   useAppDispatch,
@@ -17,7 +16,6 @@ import { deleteCompletedTodos, getTodos } from '../../webApi/webApiTodo';
 const Footer: React.FC = () => {
   const arrayTodos = useAppSelector(({ todos }) => todos);
   const filter = useAppSelector(({ filter }) => filter);
-
   const dispatch = useAppDispatch();
 
   const handleFilterTodos = (filterValue: TodoFilterENUM) => {
@@ -27,9 +25,10 @@ const Footer: React.FC = () => {
     });
   };
 
-  const amountCompleted = arrayTodos.reduce((num: number, item: TodoType) => {
-    return (item.completed ? num + 1 : num);
-  }, 0);
+  const amountCompleted = React.useMemo(() => {
+    return (arrayTodos.filter((item) => item.completed)).length;
+  }, [arrayTodos]);
+
   if (!arrayTodos.length && filter === 'all') {
     return null;
   }

@@ -27,21 +27,17 @@ export const todosSlice = createSlice({
     filterTodo: (state, action: PayloadAction<TodoFilterENUM>) => {
       state.filter = action.payload;
     },
+
     installTodos: (state, action: PayloadAction<TodoType[]>) => {
       state.todos = action.payload;
     },
+
     changeStatusTodo: (state, action: PayloadAction<string>) => {
       const todoChangeStatus = state.todos.findIndex(
         (item) => item._id === action.payload,
       );
       state.todos[todoChangeStatus].completed =
         !state.todos[todoChangeStatus].completed;
-    },
-
-    changeStatusAllTodos: (state) => {
-      state.todos = state.todos.map((item) => {
-        return { ...item, completed: true };
-      });
     },
 
     deleteCompletedTodo: (state, action: PayloadAction<string>) => {
@@ -62,6 +58,7 @@ export const todosSlice = createSlice({
       state.todos = state.todos.filter((item) => !item.completed);
     },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(setTodoInDB.fulfilled, (state, action) => {
