@@ -4,9 +4,9 @@ import React from 'react';
 import { useAppDispatch } from '../../store/index';
 import { todosSliceActions } from '../../store/todoSlice';
 import StyledListItem from './ListItem.style';
+import webApi from '../../webApi/webApiTodo';
 import { ButtonDelete,
   ButtonCompleted } from '../ListItem/ListItem.style';
-import { deleteCurrentTodo, setChangesTodoData } from '../../webApi/webApiTodo';
 
 type PropsType = {
   title: string;
@@ -24,12 +24,12 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
   const dispatch = useAppDispatch();
 
   const handleDeleteTodo = () => {
-    deleteCurrentTodo(props.todo._id);
+    webApi.deleteCurrentTodo(props.todo._id);
     dispatch(todosSliceActions.deleteCompletedTodo(props.todo._id));
   };
 
   const handleChangeStatus = () => {
-    setChangesTodoData(props.todo._id, '');
+    webApi.setChangesTodoData(props.todo._id, '');
     dispatch(todosSliceActions.changeStatusTodo(props.todo._id));
   };
 
@@ -44,7 +44,7 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
 
   const setTitleInDB = () => {
     setInputState((prevValue) => !prevValue);
-    setChangesTodoData(props.todo._id, props.todo.title);
+    webApi.setChangesTodoData(props.todo._id, props.todo.title);
   };
 
   return (

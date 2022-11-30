@@ -8,6 +8,7 @@ export const store = configureStore({
   reducer: todosReducer,
   devTools: true,
 });
+
 export type AppStateType = typeof store.getState;
 export type RootStateType = ReturnType<AppStateType>;
 export type AppDispatchType = typeof store.dispatch;

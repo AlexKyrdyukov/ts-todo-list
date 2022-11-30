@@ -6,23 +6,22 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../../store/index';
+import webApi from '../../webApi/webApiTodo';
 import {
   DeleteButton,
   FilterButton,
   InformationTable,
   StyledFooter } from './Footer.style';
-import { deleteCompletedTodos, getTodos } from '../../webApi/webApiTodo';
 
 const Footer: React.FC = () => {
   const arrayTodos = useAppSelector(({ todos }) => todos);
   const filter = useAppSelector(({ filter }) => filter);
   const dispatch = useAppDispatch();
 
-  const handleFilterTodos = (filterValue: TodoFilterENUM) => {
+  const handleFilterTodos = async (filterValue: TodoFilterENUM) => {
     dispatch(todosSliceActions.filterTodo(filterValue));
-    getTodos(filterValue).then((res) => {
-      dispatch(todosSliceActions.installTodos(res));
-    });
+    const filter = await webApi.getTodos(filterValue);
+    dispatch(todosSliceActions.installTodos(filter));
   };
 
   const amountCompleted = React.useMemo(() => {
@@ -35,7 +34,7 @@ const Footer: React.FC = () => {
   const handleDeleteCompletedTodos = () => {
     if (amountCompleted <= 0) return;
     dispatch(todosSliceActions.deleteAllCompleteTodos());
-    deleteCompletedTodos();
+    webApi.deleteCompletedTodos();
   };
 
   return (

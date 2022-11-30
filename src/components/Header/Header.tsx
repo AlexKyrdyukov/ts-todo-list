@@ -3,7 +3,7 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { todosSliceActions } from '../../store/todoSlice';
 import { setTodoInDB } from '../../store/todoThunks';
-import { changeAllTodosStatus } from '../../webApi/webApiTodo';
+import webApi from '../../webApi/webApiTodo';
 import StyledHeader from './Header.style';
 import checked from './images/checkMark.png';
 
@@ -21,10 +21,8 @@ const Header: React.FC = () => {
 
   const todosToogle = React.useMemo(() => {
     const filteredTodos = todosArray.filter((item) => item.completed);
-    if (filteredTodos.length === todosArray.length) {
-      return todosArray.map((item) => ({ ...item, completed: false }));
-    }
-    return todosArray.map((item) => ({ ...item, completed: true }));
+    const flag = filteredTodos.length !== todosArray.length;
+    return todosArray.map((item) => ({ ...item, completed: flag }));
   }, [todosArray]);
 
   const handleCreateTodo = () => {
@@ -38,7 +36,7 @@ const Header: React.FC = () => {
 
   const changeTodosStatus = () => {
     dispatch(todosSliceActions.installTodos(todosToogle));
-    changeAllTodosStatus(todosToogle[0].completed);
+    webApi.changeStatus(todosToogle[0].completed);
   };
 
   return (
