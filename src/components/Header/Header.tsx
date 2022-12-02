@@ -2,8 +2,7 @@ import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store';
 import { todosSliceActions } from '../../store/todoSlice';
-import { setTodoInDB } from '../../store/todoThunks';
-import webApi from '../../webApi/webApiTodo';
+import api from '../../api/apiTodo';
 import StyledHeader from './Header.style';
 import checked from './images/checkMark.png';
 
@@ -25,18 +24,21 @@ const Header: React.FC = () => {
     return todosArray.map((item) => ({ ...item, completed: flag }));
   }, [todosArray]);
 
-  const handleCreateTodo = () => {
+  const handleCreateTodo = async () => {
     if (!todoTitle.trim()) {
       setTodoTitle('');
       return;
     }
-    dispatch(setTodoInDB(todoTitle));
+    const newTodo = await api.createTodo(todoTitle);
     setTodoTitle('');
+    // eslint-disable-next-line no-console
+    console.log(newTodo);
+    // dispatch(todosSliceActions.(newTodo));
   };
 
   const changeTodosStatus = () => {
     dispatch(todosSliceActions.installTodos(todosToogle));
-    webApi.changeStatus(todosToogle[0].completed);
+    api.changeStatus(todosToogle[0].completed);
   };
 
   return (

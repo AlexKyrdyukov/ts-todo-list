@@ -1,14 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import axiosInstance from '../webApi/axios';
+import axiosInstance from '../api/axios';
 
-export const setTodoInDB = createAsyncThunk('postTodo', async (todoTitle: string) => {
-  try {
-    const response = await axiosInstance.post('/', { todoTitle });
-
-    const result = await response.data;
-    return result;
-  } catch (error) {
-    console.warn(error);
-  }
+const getTodos = createAsyncThunk('getTodo', async (filter: string) => {
+  const response = await axiosInstance.get('/todos', { params: { filter } });
+  return response.data;
 });
+
+export default getTodos;

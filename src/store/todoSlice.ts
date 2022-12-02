@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { setTodoInDB } from '../store/todoThunks';
 import type {
   TodoType,
   InitialStateType } from '../types';
+import getTodos from '../store/todoThunks';
 
 import {
   TodoFilterENUM,
@@ -30,6 +30,10 @@ export const todosSlice = createSlice({
 
     installTodos: (state, action: PayloadAction<TodoType[]>) => {
       state.todos = action.payload;
+    },
+
+    addTodo: (state, action:PayloadAction<TodoType>) => {
+      state.todos.push(action.payload);
     },
 
     changeStatusTodo: (state, action: PayloadAction<string>) => {
@@ -61,8 +65,10 @@ export const todosSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(setTodoInDB.fulfilled, (state, action) => {
-        state.todos.push(action.payload);
+      .addCase(getTodos.fulfilled, (state, action) => {
+        // eslint-disable-next-line no-console
+        console.log(action.payload);
+        state.todos = action.payload;
       });
   },
 });
