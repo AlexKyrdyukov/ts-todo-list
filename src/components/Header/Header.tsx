@@ -7,10 +7,13 @@ import StyledHeader from './Header.style';
 import checked from './images/checkMark.png';
 
 const Header: React.FC = () => {
-  const [todoTitle, setTodoTitle] = React.useState('');
+  const [todoTitle, setTodoTitle] = React.useState<string>('');
 
   const dispatch = useAppDispatch();
+
   const todosArray = useAppSelector(({ todos }) => todos);
+  const filterValue = useAppSelector(({ filter }) => filter);
+
   const handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (ev) => {
     if (ev.key !== 'Enter') {
       return;
@@ -29,11 +32,14 @@ const Header: React.FC = () => {
       setTodoTitle('');
       return;
     }
-    const newTodo = await api.createTodo(todoTitle);
+    const newTodo = await api.createTodo(todoTitle, false);
     setTodoTitle('');
-    // eslint-disable-next-line no-console
-    console.log(newTodo);
-    // dispatch(todosSliceActions.(newTodo));
+    if (!newTodo._id) {
+      return;
+    }
+    if (filterValue !== 'completed') {
+      dispatch(todosSliceActions.addTodo(newTodo));
+    }
   };
 
   const changeTodosStatus = () => {

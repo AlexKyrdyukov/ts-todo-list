@@ -1,9 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import axiosInstance from '../api/axios';
+import type { TodoType } from '../types';
 
-const getTodos = createAsyncThunk('getTodo', async (filter: string) => {
-  const response = await axiosInstance.get('/todos', { params: { filter } });
+const baseUrl = '/todos';
+
+const getTodos = createAsyncThunk('getTodo', async (filterValue: string) => {
+  const response = await axiosInstance.get<TodoType[]>(baseUrl, { params: { filterValue } });
   return response.data;
 });
 

@@ -2,10 +2,13 @@ import React from 'react';
 
 import { todosSliceActions } from '../../store/todoSlice';
 import { TodoFilterENUM } from '../../types';
+import type { TodoType } from '../../types';
+
 import {
   useAppDispatch,
   useAppSelector,
 } from '../../store/index';
+import getTodos from '../../store/todoThunks';
 import api from '../../api/apiTodo';
 import {
   DeleteButton,
@@ -14,28 +17,28 @@ import {
   StyledFooter } from './Footer.style';
 
 const Footer: React.FC = () => {
-  const arrayTodos = useAppSelector(({ todos }) => todos);
-  const filter = useAppSelector(({ filter }) => filter);
+  const arrayTodos: TodoType[] = useAppSelector(({ todos }) => todos);
+  const filter: TodoFilterENUM = useAppSelector(({ filter }) => filter);
   const dispatch = useAppDispatch();
 
   const handleFilterTodos = async (filterValue: TodoFilterENUM) => {
+    dispatch(getTodos(filterValue));
     dispatch(todosSliceActions.filterTodo(filterValue));
-    // const filter = await api.getTodos(filterValue);
-    // dispatch(todosSliceActions.installTodos(filter));
   };
 
-  const amountCompleted = React.useMemo(() => {
+  const amountCompleted: number = React.useMemo(() => {
     return (arrayTodos.filter((item) => item.completed)).length;
   }, [arrayTodos]);
+
+  const handleDeleteCompletedTodos = () => {
+    if (amountCompleted === 0) return;
+    dispatch(todosSliceActions.deleteAllCompleteTodos());
+    api.deleteCompletedTodos();
+  };
 
   if (!arrayTodos.length && filter === 'all') {
     return null;
   }
-  const handleDeleteCompletedTodos = () => {
-    if (amountCompleted <= 0) return;
-    dispatch(todosSliceActions.deleteAllCompleteTodos());
-    api.deleteCompletedTodos();
-  };
 
   return (
     <StyledFooter>

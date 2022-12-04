@@ -66,8 +66,6 @@ export const todosSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getTodos.fulfilled, (state, action) => {
-        // eslint-disable-next-line no-console
-        console.log(action.payload);
         state.todos = action.payload;
       });
   },

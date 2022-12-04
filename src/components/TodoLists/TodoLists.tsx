@@ -1,32 +1,26 @@
 import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store';
-import { todosSliceActions } from '../../store/todoSlice';
-import api from '../../api/apiTodo';
 import ListItem from '../ListItem';
-import StyledTodoLists from './TodoLists.style';
 import getTodos from '../../store/todoThunks';
+import StyledTodoLists from './TodoLists.style';
 
 const TodoLists: React.FC = () => {
   const dispatch = useAppDispatch();
+
   const filteredTodos = useAppSelector(({ todos }) => todos);
 
-  const arrayTodos = React.useMemo(()= > {
-    
+  const arrayTodos = React.useMemo(() => {
+    return filteredTodos;
   }, [filteredTodos]);
 
   React.useEffect(() => {
-    const getArrayTodos = async () => {
-      const arrayTodos = await dispatch(getTodos('all'));
-      // eslint-disable-next-line no-console
-      console.log(arrayTodos);
-    };
-    getArrayTodos();
+    dispatch(getTodos('all'));
   }, [dispatch]);
 
   return (
     <StyledTodoLists>
-      {filteredTodos.map((item) => (
+      {arrayTodos.map((item) => (
         <ListItem key={item._id} todo={item} />
       ))}
     </StyledTodoLists>

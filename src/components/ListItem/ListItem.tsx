@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import { useAppDispatch } from '../../store/index';
@@ -19,7 +18,7 @@ type PropsArrayType = {
 };
 
 const ListItem: React.FC<PropsArrayType> = (props) => {
-  const [inputState, setInputState] = React.useState(false);
+  const [inputState, setInputState] = React.useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
@@ -29,7 +28,9 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
   };
 
   const handleChangeStatus = () => {
-    api.setChangesTodoData(props.todo._id, '');
+    api.setChangesTodoData(
+      props.todo._id, props.todo.title, !props.todo.completed,
+    );
     dispatch(todosSliceActions.changeStatusTodo(props.todo._id));
   };
 
@@ -44,7 +45,7 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
 
   const setTitleInDB = () => {
     setInputState((prevValue) => !prevValue);
-    api.setChangesTodoData(props.todo._id, props.todo.title);
+    api.setChangesTodoData(props.todo._id, props.todo.title, props.todo.completed);
   };
 
   return (

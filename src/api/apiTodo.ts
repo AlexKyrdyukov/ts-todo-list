@@ -1,25 +1,26 @@
+import type { TodoType } from '../types/types';
 import axiosInstance from './axios';
 
 const baseUrl = '/todos';
 
 const deleteCurrentTodo = (id: string) => {
-  return axiosInstance.delete(`/${id}`);
+  axiosInstance.delete<string>(`${baseUrl}/${id}`);
 };
 
-const changeStatus = async (flag: boolean) => {
-  return axiosInstance.patch('/completed', { params: { flag } });
+const changeStatus = (value: boolean) => {
+  axiosInstance.patch<string>(`${baseUrl}/completed`, { value });
 };
 
-const deleteCompletedTodos = async () => {
-  await axiosInstance.delete('/all');
+const deleteCompletedTodos = () => {
+  axiosInstance.delete<string>(`${baseUrl}/all`);
 };
 
-const setChangesTodoData = async (id: string, titleText: string) => {
-  await axiosInstance.patch(`${baseUrl}${id}`, { params: { titleText } });
+const setChangesTodoData = (id: string, todoText: string, isCompleted: boolean) => {
+  axiosInstance.patch<string>(`${baseUrl}/${id}`, { todoText, isCompleted });
 };
 
-const createTodo = async (todoTitle: string) => {
-  const response = await axiosInstance.post(baseUrl, { todoTitle });
+const createTodo = async (todoTitle: string, todoStatus: boolean) => {
+  const response = await axiosInstance.post<TodoType>(baseUrl, { todoTitle, todoStatus });
   const result = response.data;
   return result;
 };
