@@ -3,20 +3,20 @@ import axiosInstance from './axios';
 
 const baseUrl = '/todos';
 
-const deleteCurrentTodo = (id: string) => {
-  axiosInstance.delete<string>(`${baseUrl}/${id}`);
+const deleteTodo = (id: string) => {
+  return axiosInstance.delete(`${baseUrl}/${id}`);
 };
 
 const changeStatus = (value: boolean) => {
-  axiosInstance.patch<string>(`${baseUrl}/completed`, { value });
+  return axiosInstance.patch(`${baseUrl}/completed`, { value });
 };
 
 const deleteCompletedTodos = () => {
-  axiosInstance.delete<string>(`${baseUrl}/all`);
+  return axiosInstance.delete(`${baseUrl}/all`);
 };
 
-const setChangesTodoData = (id: string, todoText: string, isCompleted: boolean) => {
-  axiosInstance.patch<string>(`${baseUrl}/${id}`, { todoText, isCompleted });
+const changeTodo = (id: string, todoText: string, isCompleted: boolean) => {
+  return axiosInstance.patch(`${baseUrl}/${id}`, { todoText, isCompleted });
 };
 
 const createTodo = async (todoTitle: string, todoStatus: boolean) => {
@@ -26,9 +26,9 @@ const createTodo = async (todoTitle: string, todoStatus: boolean) => {
 };
 
 export default {
-  setChangesTodoData,
+  changeTodo,
   deleteCompletedTodos,
   changeStatus,
-  deleteCurrentTodo,
+  deleteTodo,
   createTodo,
 };

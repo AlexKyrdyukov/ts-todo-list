@@ -7,14 +7,14 @@ import api from '../../api/apiTodo';
 import { ButtonDelete,
   ButtonCompleted } from '../ListItem/ListItem.style';
 
-type PropsType = {
+type TodoType = {
   title: string;
   _id: string;
   completed: boolean;
 };
 
 type PropsArrayType = {
-  todo: PropsType;
+  todo: TodoType;
 };
 
 const ListItem: React.FC<PropsArrayType> = (props) => {
@@ -22,16 +22,24 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
 
   const dispatch = useAppDispatch();
 
-  const handleDeleteTodo = () => {
-    api.deleteCurrentTodo(props.todo._id);
-    dispatch(todosSliceActions.deleteCompletedTodo(props.todo._id));
+  const handleDeleteTodo = async () => {
+    try {
+      await api.deleteTodo(props.todo._id);
+      dispatch(todosSliceActions.deleteCompletedTodo(props.todo._id));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleChangeStatus = () => {
-    api.setChangesTodoData(
-      props.todo._id, props.todo.title, !props.todo.completed,
-    );
-    dispatch(todosSliceActions.changeStatusTodo(props.todo._id));
+  const handleChangeStatus = async () => {
+    try {
+      await api.changeTodo(
+        props.todo._id, props.todo.title, !props.todo.completed,
+      );
+      dispatch(todosSliceActions.changeStatusTodo(props.todo._id));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleChangeTodoText = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,9 +51,13 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
     );
   };
 
-  const setTitleInDB = () => {
-    setInputState((prevValue) => !prevValue);
-    api.setChangesTodoData(props.todo._id, props.todo.title, props.todo.completed);
+  const changeTodoTitle = async () => {
+    try {
+      await api.changeTodo(props.todo._id, props.todo.title, props.todo.completed);
+      setInputState((prevValue) => !prevValue);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -59,7 +71,7 @@ const ListItem: React.FC<PropsArrayType> = (props) => {
         ? (<input
           className="input__block"
           value={props.todo.title}
-          onBlur={setTitleInDB}
+          onBlur={changeTodoTitle}
           onChange={handleChangeTodoText}
           />)
         : (<div

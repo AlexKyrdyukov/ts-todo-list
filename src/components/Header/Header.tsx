@@ -32,19 +32,24 @@ const Header: React.FC = () => {
       setTodoTitle('');
       return;
     }
-    const newTodo = await api.createTodo(todoTitle, false);
-    setTodoTitle('');
-    if (!newTodo._id) {
-      return;
-    }
-    if (filterValue !== 'completed') {
-      dispatch(todosSliceActions.addTodo(newTodo));
+    try {
+      const newTodo = await api.createTodo(todoTitle, false);
+      setTodoTitle('');
+      if (filterValue !== 'completed') {
+        dispatch(todosSliceActions.addTodo(newTodo));
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  const changeTodosStatus = () => {
-    dispatch(todosSliceActions.installTodos(todosToogle));
-    api.changeStatus(todosToogle[0].completed);
+  const changeTodosStatus = async () => {
+    try {
+      await api.changeStatus(todosToogle[0].completed);
+      dispatch(todosSliceActions.setTodosStatus(todosToogle));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

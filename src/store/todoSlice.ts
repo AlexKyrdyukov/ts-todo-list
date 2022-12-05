@@ -10,10 +10,6 @@ import {
   TodoFilterENUM,
 } from '../types';
 
-type ChangeTodoTextType = {
-  text: string;
-  _id: string;
-};
 const arrayTodos: TodoType[] = [];
 export const initialState: InitialStateType = {
   todos: arrayTodos,
@@ -28,7 +24,7 @@ export const todosSlice = createSlice({
       state.filter = action.payload;
     },
 
-    installTodos: (state, action: PayloadAction<TodoType[]>) => {
+    setTodosStatus: (state, action: PayloadAction<TodoType[]>) => {
       state.todos = action.payload;
     },
 
@@ -51,7 +47,7 @@ export const todosSlice = createSlice({
       state.todos.splice(todoDelete, 1);
     },
 
-    changeTodoText: (state, action: PayloadAction<ChangeTodoTextType>) => {
+    changeTodoText: (state, action: PayloadAction<{_id: string; text: string}>) => {
       const newText = action.payload.text;
       const todoId = action.payload._id;
       const indexTodo = state.todos.findIndex((item) => item._id === todoId);

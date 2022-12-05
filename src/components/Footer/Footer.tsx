@@ -22,18 +22,26 @@ const Footer: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const handleFilterTodos = async (filterValue: TodoFilterENUM) => {
-    dispatch(getTodos(filterValue));
-    dispatch(todosSliceActions.filterTodo(filterValue));
+    try {
+      await dispatch(getTodos(filterValue));
+      dispatch(todosSliceActions.filterTodo(filterValue));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const amountCompleted: number = React.useMemo(() => {
     return (arrayTodos.filter((item) => item.completed)).length;
   }, [arrayTodos]);
 
-  const handleDeleteCompletedTodos = () => {
-    if (amountCompleted === 0) return;
-    dispatch(todosSliceActions.deleteAllCompleteTodos());
-    api.deleteCompletedTodos();
+  const handleDeleteCompletedTodos = async () => {
+    if (!amountCompleted) return;
+    try {
+      await api.deleteCompletedTodos();
+      dispatch(todosSliceActions.deleteAllCompleteTodos());
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (!arrayTodos.length && filter === 'all') {
